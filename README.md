@@ -1,8 +1,12 @@
 ## Content overview
 
-**Topic** The impact of SEPTA's August-September 2025 service cuts.
+**Topic** 
 
-**Intended users** SEPTA bus riders and potential SEPTA bus riders.
+The impact of SEPTA's August-September 2025 service cuts.
+
+**Intended users** 
+
+SEPTA bus riders and potential SEPTA bus riders.
 
 **What users could do with this information** 
 
