@@ -92,12 +92,6 @@ district_cuts <- normal_mapping_data_all %>%
   right_join(districts, by = "leg_district_no") %>% 
   st_as_sf()
 
-# Entire SEPTA service area
-districts_all <- districts %>% 
-  st_union() %>% 
-  st_make_valid() %>% 
-  nngeo::st_remove_holes()
-
 # Export --------------------------------------------------------------------------------------
 
 st_write(normal_mapping_data_all, 
@@ -106,10 +100,6 @@ st_write(normal_mapping_data_all,
 
 st_write(district_cuts, 
          str_c(data_dir, "/districts.json"), 
-         driver = "GeoJSON")
-
-st_write(districts_all, 
-         str_c(data_dir, "/septa_area.json"), 
          driver = "GeoJSON")
 
 
