@@ -108,21 +108,8 @@ st_write(district_cuts,
          str_c(data_dir, "/districts.json"), 
          driver = "GeoJSON")
 
-
-
-# ---------------------------------------------------------------------------------------------
-
-# segments_both_1 <- normal_geometry %>% 
-#   filter(shape_id %in% cut_geometry$shape_id)
-# 
-# segments_both_2 <- cut_geometry %>% 
-#   filter(shape_id %in% normal_geometry$shape_id)
-
-segments_check <- normal_mapping_data_all %>% 
-  filter(cut_status == "Shortened")
-
-mapview::mapview(normal_mapping_data_all %>% filter(route_id == "5"), zcol = "shape_id")
-mapview::mapview(cut_mapping_data_all %>% filter(route_id == "5"), zcol = "shape_id")
-mapview::mapview(district_cuts, zcol = "percent_eliminated")
+st_write(districts_all, 
+         str_c(data_dir, "/septa_area.json"), 
+         driver = "GeoJSON")
 
 

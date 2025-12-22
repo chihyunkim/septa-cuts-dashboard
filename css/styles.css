@@ -60,6 +60,11 @@ body {
   flex-direction: row;
 }
 
+#suggestions {
+  list-style: none;
+  padding: 0;
+}
+
 
 
 
