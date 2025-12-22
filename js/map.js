@@ -1,3 +1,4 @@
+import * as turf from 'https://cdn.jsdelivr.net/npm/@turf/turf@7.1.0/+esm';
 
 /**
 * Initialize the Leaflet map with base layers and controls
@@ -72,4 +73,31 @@ function standardStyle(feature) {
     };
 }
 
-export { initMap };
+/**
+* Overlay opaque mask depending on user's district.
+* @param {EventTarget} events The event bus used to communicate between app components.
+*/
+function overlayMask(events) {
+    // Get geometry of user's district from events bus
+    events.addEventListener('districtData', async (event) => {
+        const district = event.detail;
+        // Created inverted polygon of district
+        const invertedDistrict = turf.mask(district);
+        // Add district mask to map
+        L.geoJSON(invertedDistrict, {
+            style: function () {
+                return {
+                    fillOpacity: 0.6,
+                    color: '#a8a8a8ff',
+                    weight: 1,
+                };
+            }
+        }).addTo(map);
+        // Fit map to bounds of user's district
+        map.fitBounds(L.geoJSON(district).getBounds());
+
+    });
+
+}
+
+export { initMap, overlayMask };
