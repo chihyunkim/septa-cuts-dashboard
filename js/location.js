@@ -6,8 +6,6 @@ import { getGeojsonCollection } from './utils.js';
 const geolocateButton = document.querySelector('#geolocate-button');
 const addressInput = document.querySelector('#address-input');
 const addressSuggestions = document.querySelector('#suggestions');
-const districtNum = document.querySelector('#district-num');
-const results = document.querySelector('#results');
 
 const districts = await getGeojsonCollection('districts.json');
 
@@ -21,7 +19,7 @@ function geolocate(events) {
             (position) => {
                 const lat = position.coords.latitude;
                 const lng = position.coords.longitude;
-                console.log(`Latitude: ${lat}, Longitude: ${lng}`);
+                console.log(`Location acquired: Latitude: ${lat}, Longitude: ${lng}`);
                 
                 const evt = new CustomEvent('userLocationAcquired', {
                     detail: { lat, lng },
@@ -72,7 +70,7 @@ function suggestAddress(events) {
                     detail: { lat, lng },
                 });
                 events.dispatchEvent(evt);
-                console.log(`Latitude: ${lat}, Longitude: ${lng}`);
+                console.log(`Location acquired: Latitude: ${lat}, Longitude: ${lng}`);
             });
             addressSuggestions.appendChild(listItem);
         }
@@ -94,25 +92,6 @@ function getDistrict(events) {
         // Get the correct district number based on user's location
         const district = findIntersectingPolygon(pt, districts);
         console.log('Intersecting district:', district);
-        // Get attributes of the district
-        const districtNumber = district.properties.leg_district_no;
-        const routes_eliminated = district.properties.routes_eliminated;
-        const routes_shortened = district.properties.routes_shortened;
-        const percent_eliminated = district.properties.percent_eliminated;
-        const percent_shortened = district.properties.percent_shortened;
-        // Display the district number, or error message if district number is not found
-        if (!districtNumber) {
-            districtNum.textContent = 'Please enter an address within Philadelphia.';
-        }
-        else {
-            districtNum.textContent = `Your PA Senate district is: ${districtNumber}`;
-        }
-        // Display custom message in results section
-        results.innerHTML = `
-            <h3>Impacts in your area</h3>
-            <p>In Senate District ${districtNumber}, <b>${routes_eliminated}</b> bus routes (${percent_eliminated} of routes), were completely eliminated and <b>${routes_shortened}</b> routes (${percent_shortened} of routes) were shortened.</p>
-        `;
-
         // Dispatch the district data to event bus
         const evt = new CustomEvent('districtData', {
             detail: district,
